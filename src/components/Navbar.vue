@@ -62,8 +62,11 @@
             <router-link class="dropdown-item" :to="{ name: 'Home' }"
               >Home
             </router-link>
-            <router-link class="dropdown-item" :to="{ name: 'AdminProduct' }"
-              >Lịch đặt sân của bạn
+            <router-link
+              v-if="token"
+              class="dropdown-item"
+              :to="{ name: 'CreateMatch' }"
+              >Đặt sân
             </router-link>
             <router-link class="dropdown-item" :to="{ name: 'Admin' }"
               >Admin
@@ -88,8 +91,8 @@
             <router-link
               v-if="token"
               class="dropdown-item"
-              :to="{ name: 'WishList' }"
-              >Wishlist
+              :to="{ name: 'Match' }"
+              >Sân của bạn
             </router-link>
             <router-link
               v-if="!token"
@@ -113,8 +116,57 @@
   </nav>
 </template>
 <script>
+import swal from "sweetalert";
+import axios from "axios";
 export default {
   name: "Navbar",
+
+  data() {
+    return {
+      token: null,
+      users: null,
+      roleId: null,
+    };
+  },
+  methods: {
+    signout() {
+      localStorage.removeItem("token");
+      this.token = null;
+      swal({
+        text: "Logged you out. Visit again",
+        icon: "success",
+      });
+      // this.$router.push({ name: "Home" });
+      location.replace("/");
+    },
+
+    async getUser() {
+      if (this.token) {
+        await axios
+          .get(`http://localhost:8081/user/${this.token}`)
+          .then((res) => {
+            this.users = res.data;
+            this.roleId = this.users.role.id;
+            console.log(this.users);
+          })
+          .catch((err) => console.log("err", err));
+      }
+    },
+  },
+  watch: {
+    $route(to) {
+      if (to.name === "SignIn" || to.name === "SignUp") {
+        this.token = null;
+      } else {
+        this.token = localStorage.getItem("token");
+        this.getUser();
+      }
+    },
+  },
+  mounted() {
+    this.token = localStorage.getItem("token");
+    this.getUser();
+  },
 };
 </script>
 <style scoped>

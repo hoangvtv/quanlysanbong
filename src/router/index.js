@@ -20,6 +20,9 @@ import EditSoccerService from "../views/SoccerService/EditSoccerService.vue";
 import CreateMatch from "../views/Match/CreateMatch.vue";
 import SignIn from "../views/SignIn.vue";
 import SignUp from "../views/SignUp.vue";
+import Bill from "../views/Bill/Bill.vue";
+import ListUser from "../components/ListUser.vue";
+import Match from "../views/Match/Match.vue";
 
 Vue.use(VueRouter);
 
@@ -127,6 +130,11 @@ const routes = [
     name: "CreateMatch",
     component: CreateMatch,
   },
+  {
+    path: "/match",
+    name: "Match",
+    component: Match,
+  },
 
   //Account
   {
@@ -138,6 +146,20 @@ const routes = [
     path: "/signUp",
     name: "SignUp",
     component: SignUp,
+  },
+
+  //Bill
+  {
+    path: "/bill",
+    name: "Bill",
+    component: Bill,
+  },
+
+  //User
+  {
+    path: "/listUser",
+    name: "ListUser",
+    component: ListUser,
   },
 ];
 

@@ -51,7 +51,12 @@
           </div>
           <div class="form-group">
             <label>Price</label>
-            <input type="number" v-model="price" class="form-control" />
+            <input
+              type="number"
+              v-model="price"
+              min="100000"
+              class="form-control"
+            />
           </div>
           <button type="button" class="btn btn-primary" @click="addSoccerFlied">
             Add SoccerFlied

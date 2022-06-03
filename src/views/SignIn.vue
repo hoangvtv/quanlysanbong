@@ -4,7 +4,6 @@
       <h2 class="pt-4 pl-4" style="font-size: 26px; margin: 0 auto">
         Đăng nhập
       </h2>
-
       <div class="col-12 justify-content-center d-flex flex-row pt-5">
         <div id="signin" class="flext-item border text-center">
           <form @submit="signin" class="form-group pt-4 pl-4 pr-4">
@@ -68,7 +67,8 @@ export default {
             icon: "success",
           });
           this.$emit("fetchData");
-          this.$$router.push({ name: "Home" });
+          // this.$router.push({ name: "Home" });
+          this.$router.push({ name: "Home" });
         })
         .catch(
           (err) => console.log("err", err),

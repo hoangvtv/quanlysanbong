@@ -35,6 +35,8 @@ export default {
       merchandises: null,
       yardLocations: null,
       soccerServices: null,
+      users: null,
+      token: null,
     };
   },
   methods: {
@@ -53,7 +55,6 @@ export default {
         .get(this.baseURL + "soccerField/list")
         .then((res) => {
           this.soccerFields = res.data;
-          // console.log(this.soccerFields);
         })
         .catch((err) => console.log("err", err));
 
@@ -81,9 +82,27 @@ export default {
         })
         .catch((err) => console.log("err", err));
     },
+
+    async getUser() {
+      if (this.token) {
+        await axios
+          .get(`${this.baseURL}user/${this.token}`)
+          .then((res) => {
+            this.users = res.data;
+          })
+          .catch((err) => console.log("err", err));
+      }
+    },
   },
   mounted() {
     this.fetchData();
+    this.token = localStorage.getItem("token");
+    this.getUser();
+  },
+  watch: {
+    token() {
+      this.getUser();
+    },
   },
 };
 </script>

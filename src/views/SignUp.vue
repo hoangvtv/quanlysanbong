@@ -46,6 +46,16 @@
                 </div>
               </div>
             </div>
+            <div class="form-group">
+              <label> Phone</label>
+              <input
+                type="password"
+                v-model="phone"
+                class="form-control"
+                required
+              />
+            </div>
+
             <!-- password -->
             <div class="form-group">
               <label for="Password"> Password</label>
@@ -97,8 +107,10 @@ export default {
       email: null,
       firstName: null,
       lastName: null,
+      phone: null,
       password: null,
       confirmPassword: null,
+      roleId: 3,
     };
   },
   methods: {
@@ -110,7 +122,9 @@ export default {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
+          phone: this.phone,
           password: this.password,
+          roleId: this.roleId,
         };
         console.log("user", user);
         await axios
@@ -123,16 +137,16 @@ export default {
             this.$router.replace("/signin");
           })
           .catch((err) => {
-            console.log("err", err.response.data);
+            console.log("err", err);
             const errorMessage = err.response.data;
             if (errorMessage) {
-              swal.fire({
-                text: `${errorMessage}`,
+              swal({
+                text: "User already exists, please signup with another email",
                 icon: "error",
               });
             } else {
-              swal.fire({
-                text: "Đăng ký thất bại",
+              swal({
+                text: "User signup failed, please try again",
                 icon: "error",
               });
             }

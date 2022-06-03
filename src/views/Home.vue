@@ -22,7 +22,9 @@
     <!--    display Price -->
     <div class="container mt-2">
       <div class="col-12 text-center">
-        <h2 class="pt-3">Stadium fee</h2>
+        <h2 class="pt-3" style="font-size: 36px; font-weight: 500">
+          Stadium fee
+        </h2>
       </div>
       <table class="table text-center">
         <thead>
@@ -52,7 +54,9 @@
     <div class="container mt-2">
       <div class="row">
         <div class="col-12 text-center">
-          <h2 class="pt-3">Yard Location</h2>
+          <h2 class="pt-3" style="font-size: 36px; font-weight: 500">
+            Yard Location
+          </h2>
         </div>
       </div>
       <div class="row">

@@ -35,50 +35,67 @@
               </option>
             </select>
           </div>
+          <div class="form-group">
+            <label style="font-size: 1rem; font-weight: 600">Your name</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="yourName"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label style="font-size: 1rem; font-weight: 600">Your phone</label>
+            <input
+              type="tel"
+              class="form-control"
+              v-model="yourPhone"
+              required
+            />
+          </div>
 
           <div class="form-group">
-            <b-field label="Select a date">
-              <b-datepicker
-                placeholder="Click to select..."
-                :min-date="minDate"
-                :max-date="maxDate"
-                v-model="dateMatch"
-              >
-              </b-datepicker>
-            </b-field>
+            <label style="font-size: 1rem; font-weight: 600"
+              >Select a date</label
+            >
+            <input
+              type="date"
+              class="form-control"
+              v-model="dateMatch"
+              min="2022-05-25"
+              :max-date="maxDate"
+              required
+            />
           </div>
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <b-field label="Start time">
-                  <b-timepicker
-                    placeholder="Click to select..."
-                    :min-time="minTimeStart"
-                    :max-time="maxTimeStart"
-                    v-model="startTime"
-                  >
-                  </b-timepicker>
-                </b-field>
+                <label style="font-size: 1rem; font-weight: 600"
+                  >Start Time</label
+                >
+                <input
+                  type="time"
+                  class="form-control"
+                  v-model="startTime"
+                  required
+                />
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
-                <b-field label="End time">
-                  <b-timepicker
-                    placeholder="Click to select..."
-                    :min-time="minTimeEnd"
-                    :max-time="maxTimeEnd"
-                    v-model="endTime"
-                  >
-                  </b-timepicker>
-                </b-field>
+                <label style="font-size: 1rem; font-weight: 600"
+                  >End Time</label
+                >
+                <input
+                  type="time"
+                  class="form-control"
+                  v-model="endTime"
+                  required
+                />
               </div>
             </div>
           </div>
-          <!-- <div class="form-group">
-            <label>Start date </label>
-            <input type="date" class="form-control" v-model="time" />
-          </div> -->
+
           <button
             type="button"
             class="btn btn-primary"
@@ -126,14 +143,14 @@ export default {
       endTime: null,
       categoryId: null,
       yardLocationId: null,
-
-      time: "",
+      yourName: null,
+      yourPhone: null,
     };
   },
   watch: {
-    startTime() {
-      console.log(this.startTime);
-    },
+    // startTime() {
+    //   console.log(this.startTime);
+    // },
   },
 
   methods: {
@@ -186,11 +203,14 @@ export default {
       const newMatch = {
         yardLocationId: this.yardLocationId,
         categoryId: this.categoryId,
-        matchDate: this.time,
-        // startTime: this.formatHourse(this.startTime),
-        // endTime: this.formatHourse(this.endTime),
+        name: this.yourName,
+        phone: this.yourPhone,
+        token: "e77aa0d5-8b99-42e0-a958-9f44a6de1f2c",
+        matchDate: this.dateMatch,
         startTime: this.startTime,
         endTime: this.endTime,
+        yourName: this.yourName,
+        yourPhone: this.yourPhone,
       };
       console.log(newMatch);
 

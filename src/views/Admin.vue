@@ -29,9 +29,14 @@
 
     <br />
 
-    <button class="btn btn-primary btn-lg">Admin User</button><br />
+    <router-link :to="{ name: 'ListUser' }">
+      <button class="btn btn-primary btn-lg">Admin User</button><br />
+    </router-link>
 
-    <button class="btn btn-primary btn-lg">Admin Bill</button>
+    <router-link :to="{ name: 'Bill' }">
+      <button class="btn btn-primary btn-lg">Admin Bill</button>
+    </router-link>
+
     <br />
 
     <router-link :to="{ name: '' }">
