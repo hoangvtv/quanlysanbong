@@ -68,7 +68,10 @@
               :to="{ name: 'CreateMatch' }"
               >Đặt sân
             </router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Admin' }"
+            <router-link
+              v-if="roleId == 2 || roleId == 1"
+              class="dropdown-item"
+              :to="{ name: 'Admin' }"
               >Admin
             </router-link>
           </div>

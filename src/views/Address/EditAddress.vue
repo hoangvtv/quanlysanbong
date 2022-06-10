@@ -85,7 +85,6 @@ export default {
   props: ["baseURL", "yardLocations"],
   methods: {
     async editAddress() {
-      //   delete this.category["soccerFlied"];
       await axios
         .put(`${this.baseURL}yardLocation/edit/${this.id}`, this.yardLocation)
         .then(() => {

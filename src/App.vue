@@ -14,6 +14,9 @@
     >
     </router-view>
     <Footer />
+    <button class="btn btn-primary btn_phone">
+      <a href="tel:+00 151515 "><i class="fa fa-phone"></i></a>
+    </button>
   </div>
 </template>
 
@@ -119,5 +122,33 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.btn_phone {
+  position: fixed;
+  height: 80px;
+  width: 80px;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  background-color: #42b983;
+  font-size: 40px;
+  border-radius: 50%;
+  animation: bounce-in 1s infinite;
+}
+a i {
+  color: #fff;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20px);
+  }
 }
 </style>

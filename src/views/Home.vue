@@ -63,7 +63,7 @@
         <div
           v-for="index in this.yardLocationSize"
           :key="index"
-          class="col-md-6 col-xl-4 col-12 pt-3 justify-content-center d-flex"
+          class="col-md-4 col-xl-4 col-12 pt-3 justify-content-center d-flex"
         >
           <AddressBox :yardLocation="yardLocations[index - 1]" />
         </div>

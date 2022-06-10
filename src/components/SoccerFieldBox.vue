@@ -9,7 +9,8 @@
     </div> -->
     <div class="card-body">
       <h5 class="card-title">{{ soccerField.name }}</h5>
-      <!-- <p class="card-text">YardLocation: {{ soccerField.yardLocation.name }}</p> -->
+      <p class="card-text">Địa điểm: {{ soccerField.yardLocation.name }}</p>
+
       <p class="card-text">{{ soccerField.description }}</p>
       <p class="card-text">
         Price: {{ soccerField.price.toLocaleString() }} VNĐ/1h

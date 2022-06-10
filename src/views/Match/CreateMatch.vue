@@ -145,6 +145,7 @@ export default {
       yardLocationId: null,
       yourName: null,
       yourPhone: null,
+      token: null,
     };
   },
   watch: {
@@ -205,7 +206,7 @@ export default {
         categoryId: this.categoryId,
         name: this.yourName,
         phone: this.yourPhone,
-        token: "e77aa0d5-8b99-42e0-a958-9f44a6de1f2c",
+        token: this.token,
         matchDate: this.dateMatch,
         startTime: this.startTime,
         endTime: this.endTime,
@@ -232,6 +233,9 @@ export default {
           });
         });
     },
+  },
+  mounted() {
+    this.token = localStorage.getItem("token");
   },
 };
 </script>

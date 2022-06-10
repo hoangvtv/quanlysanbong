@@ -4,7 +4,7 @@
       <div class="col-12 text-center mt-3">
         <h4 style="font-size: 26px">Our SoccerFlied</h4>
         <router-link :to="{ name: 'AddSoccerFlied' }" style="float: right">
-          <button class="btn">Add SoccerFlied</button>
+          <button class="btn btn-primary">Add SoccerFlied</button>
         </router-link>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <div
         v-for="soccerField of soccerFields"
         :key="soccerField.id"
-        class="col-md-6 col-xl-4 col-12 pt-3 d-flex"
+        class="col-md-4 col-xl-4 col-12 pt-3 d-flex"
       >
         <SoccerFieldBox
           :soccerField="soccerField"

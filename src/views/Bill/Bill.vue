@@ -4,9 +4,30 @@
       <v-data-table
         :headers="headers"
         :items="listBill"
-        sort-by="calories"
         class="elevation-1 mt-3"
       >
+        <template v-slot:body="{ items }">
+          <tbody>
+            <tr v-for="item in items" :key="item.id">
+              <td>{{ new Date(item.createdate).toLocaleDateString() }}</td>
+              <td>{{ item.user.firstName }}</td>
+              <td>{{ item.matchDetails.yardLocation.name }}</td>
+              <td>{{ item.custommer }}</td>
+              <td>{{ item.serviceMoney }}</td>
+              <td>{{ item.merchandiseMoney }}</td>
+              <td>{{ item.totalMoney }}</td>
+              <td>
+                {{ item.status == 1 ? "Đã thanh toán" : "Chưa thanh toán" }}
+              </td>
+              <td>
+                <v-icon small class="mr-2" @click="editItem(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+              </td>
+            </tr>
+          </tbody>
+        </template>
         <template v-slot:top>
           <v-toolbar flat>
             <v-toolbar-title style="font-size: 26px">List Bill</v-toolbar-title>
@@ -109,52 +130,59 @@
             </v-dialog>
           </v-toolbar>
         </template>
-        <template v-slot:item.actions="{ item }">
+        <!-- <template v-slot:item.actions="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)">
             mdi-pencil
           </v-icon>
           <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-        </template>
-      </v-data-table></v-app
-    >
+        </template> -->
+      </v-data-table>
 
-    <div class="row">
-      <div class="col-4">
-        <div class="form-group">
-          <label style="font-size: 1rem; font-weight: 600">Start Date</label>
-          <input
-            type="date"
-            class="form-control"
-            v-model="startDate"
-            required
-          />
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="form-group">
-          <label style="font-size: 1rem; font-weight: 600">End Date</label>
-          <input type="date" class="form-control" v-model="endDate" required />
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="row">
-          <div class="col-4" style="margin: 35px auto">
-            <button class="btn btn-primary" @click="getListBill">
-              Thống kê
-            </button>
+      <div class="row mt-5">
+        <div class="col-4">
+          <div class="form-group">
+            <label style="font-size: 1rem; font-weight: 600">Start Date</label>
+            <input
+              type="date"
+              class="form-control"
+              v-model="startDate"
+              required
+            />
           </div>
-          <div class="col-8">
-            <div class="form-group">
-              <label style="font-size: 1rem; font-weight: 600">Tổng tiền</label>
-              <br />
-              <span style="font-size: 1.5rem; font-weight: 600">
-                {{ formatPrice(moneyTotal) }} VND
-              </span>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label style="font-size: 1rem; font-weight: 600">End Date</label>
+            <input
+              type="date"
+              class="form-control"
+              v-model="endDate"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="row">
+            <div class="col-4" style="margin: 35px auto">
+              <button class="btn btn-primary" @click="getListBill">
+                Thống kê
+              </button>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <label style="font-size: 1rem; font-weight: 600"
+                  >Tổng tiền</label
+                >
+                <br />
+                <span style="font-size: 1.5rem; font-weight: 600">
+                  {{ formatPrice(moneyTotal) }} VND
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </v-app>
   </div>
 </template>
 
@@ -164,7 +192,7 @@ import Swal from "sweetalert";
 export default {
   data: () => ({
     token: null,
-    moneyTotal: 100000000,
+    moneyTotal: 0,
     startDate: "",
     endDate: "",
     listBill: [],
@@ -221,16 +249,15 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete();
     },
-    listBill(val) {
-      this.moneyTotal = 0;
-      val.forEach((item) => {
-        this.moneyTotal += item.total;
-      });
+    listBill: {
+      deep: true,
+      handler() {
+        this.moneyTotal = 0;
+        this.listBill.forEach((item) => {
+          this.moneyTotal += item.totalMoney;
+        });
+      },
     },
-  },
-
-  created() {
-    this.initialize();
   },
 
   methods: {
@@ -268,7 +295,7 @@ export default {
     totalMoney() {
       let total = 0;
       this.listBill.forEach((item) => {
-        total += item.total;
+        total += item.totalMoney;
       });
       this.moneyTotal = total;
     },
@@ -285,95 +312,23 @@ export default {
         });
     },
 
-    initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-        },
-      ];
-    },
-
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = item.id;
       this.editedItem = Object.assign({}, item);
+      console.log("item: " + this.editedItem);
+      console.log("id: " + this.editedIndex);
       this.dialog = true;
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.listBill.indexOf(item.id);
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      this.desserts.splice(this.editedIndex, 1);
+      // this.desserts.splice(this.editedIndex, 1);
+      console.log(this.editedItem.id);
       this.closeDelete();
     },
 
@@ -395,6 +350,33 @@ export default {
 
     async save() {
       if (this.editedIndex > -1) {
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        const bill = {
+          matchDetails: this.editedItem.matchDetails,
+          serviceMoney: this.editedItem.serviceMoney,
+          merchandiseMoney: this.editedItem.merchandiseMoney,
+          status: this.status,
+        };
+        console.log("bill: ", bill);
+        await axios
+          .put(
+            `http://localhost:8081/bill/update/${this.editedIndex}/${this.token}`,
+            bill
+          )
+          .then(() => {
+            Swal({
+              text: "Bill has been updated!",
+              icon: "success",
+            });
+            this.getBill();
+          })
+          .catch((err) => {
+            console.log(err);
+            Swal({
+              text: "Bill has not been updated!",
+              icon: "error",
+            });
+          });
         Object.assign(this.desserts[this.editedIndex], this.editedItem);
       } else {
         const bill = {
@@ -403,22 +385,23 @@ export default {
           merchandiseMoney: this.editedItem.merchandiseMoney,
           status: this.status,
         };
-        console.log(bill);
 
         await axios
           .post(`http://localhost:8081/bill/create/${this.token}`, bill)
           .then(() => {
             Swal({
-              text: "SoccerFlied has been added",
+              text: "Bill has been added",
               icon: "success",
             });
-            this.getListBill();
+            this.getBill();
           })
           .catch((err) => {
+            Swal({
+              text: "Bill has been failed",
+              icon: "error",
+            });
             console.log(err);
           });
-
-        // this.desserts.push(this.editedItem);
       }
       this.close();
     },

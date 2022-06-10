@@ -137,6 +137,7 @@ export default {
     this.soccerFlied = this.soccerFields.find(
       (soccerFlied) => soccerFlied.id == this.id
     );
+    console.log(this.soccerFlied);
   },
 };
 </script>

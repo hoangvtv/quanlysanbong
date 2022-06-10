@@ -1,12 +1,22 @@
 <template>
-  <div class="container-fluid">
+  <div class="container">
     <h2 class="pt-4 pl-4 text-center" style="font-size: 26px; margin: 0 auto">
       List User
     </h2>
     <v-app>
+      <v-card-title>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
       <v-data-table
         :headers="headers"
         :items="listUser"
+        :search="search"
         sort-by="calories"
         class="elevation-1"
       >
@@ -22,11 +32,16 @@
                   <v-container>
                     <v-row>
                       <v-col cols="12" sm="12" md="12">
-                        <v-select
-                          :items="roles"
-                          v-model="role"
-                          label="Quyền"
-                        ></v-select>
+                        <label>Quyền</label>
+                        <select class="form-control" v-model="role" required>
+                          <option
+                            v-for="role in roles"
+                            :key="role.id"
+                            :value="role.id"
+                          >
+                            {{ role.name }}
+                          </option>
+                        </select>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -41,30 +56,17 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-            <v-dialog v-model="dialogDelete" max-width="500px">
-              <v-card>
-                <v-card-title class="text-h5"
-                  >Are you sure you want to delete this item?</v-card-title
-                >
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeDelete"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                    >OK</v-btn
-                  >
-                  <v-spacer></v-spacer>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
           </v-toolbar>
         </template>
         <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+            style="align-items: center"
+          >
             mdi-pencil
           </v-icon>
-          <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
         </template>
       </v-data-table>
     </v-app>
@@ -72,8 +74,10 @@
 </template>
 <script>
 import axios from "axios";
+import Swal from "sweetalert";
 export default {
   data: () => ({
+    search: "",
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -91,8 +95,13 @@ export default {
     ],
 
     listUser: [],
-    roles: [],
-    role: "",
+    roles: [
+      { id: 1, name: "MANAGER" },
+      { id: 2, name: "ADMIN" },
+      { id: 3, name: "USER" },
+    ],
+
+    role: null,
     editedIndex: -1,
     editedItem: {
       email: "",
@@ -102,11 +111,11 @@ export default {
       role: "",
     },
     defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0,
+      email: "",
+      firstName: "",
+      lastName: "",
+      phone: "",
+      role: "",
     },
   }),
 
@@ -120,36 +129,20 @@ export default {
     dialog(val) {
       val || this.close();
     },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
-    role(val) {
-      // this.editedItem.role = val;
-      // console.log(val);
-      this.role = val;
-      console.log(this.role);
+
+    role: {
+      deep: true,
+      handler(val) {
+        this.editedItem.role = val;
+      },
     },
   },
 
   created() {
     this.getListUser();
-    this.getListRole();
   },
 
   methods: {
-    getListRole() {
-      axios
-        .get("http://localhost:8081/role/list")
-        .then((response) => {
-          // this.roles = response.data;
-          response.data.forEach((item) => {
-            this.roles.push(item.role);
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     getListUser() {
       axios
         .get("http://localhost:8081/user/list")
@@ -160,32 +153,9 @@ export default {
     },
 
     editItem(item) {
-      // console.log(item);
-      // const user = {
-      //   email: item.email,
-      //   firstName: item.firstName,
-      //   lastName: item.lastName,
-      //   phone: item.phone,
-      //   role: this.role,
-      // };
-      // console.log(user);
-
-      this.editedIndex = this.listUser.indexOf(item);
+      this.editedIndex = item.id;
       this.editedItem = Object.assign({}, item);
-      console.log(this.editedItem);
-
       this.dialog = true;
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.listUser.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.listUser.splice(this.editedIndex, 1);
-      this.closeDelete();
     },
 
     close() {
@@ -196,26 +166,23 @@ export default {
       });
     },
 
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    save() {
+    async save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.listUser[this.editedIndex], this.editedItem);
-      } else {
-        this.listUser.push(this.editedItem);
+        await axios
+          .put(
+            `http://localhost:8081/user/update/${this.editedItem.id}/${this.role}`
+          )
+          .then(() => {
+            Swal({
+              text: "User has been updated!",
+              icon: "success",
+            });
+            this.getListUser();
+          })
+          .catch((err) => console.log("err", err));
       }
       this.close();
     },
-  },
-
-  mounted() {
-    // this.getListUser();
   },
 };
 </script>

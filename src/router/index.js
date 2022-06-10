@@ -23,6 +23,7 @@ import SignUp from "../views/SignUp.vue";
 import Bill from "../views/Bill/Bill.vue";
 import ListUser from "../components/ListUser.vue";
 import Match from "../views/Match/Match.vue";
+import ListMatch from "../views/Match/ListMatch.vue";
 
 Vue.use(VueRouter);
 
@@ -134,6 +135,12 @@ const routes = [
     path: "/match",
     name: "Match",
     component: Match,
+  },
+
+  {
+    path: "/listMatch",
+    name: "ListMatch",
+    component: ListMatch,
   },
 
   //Account

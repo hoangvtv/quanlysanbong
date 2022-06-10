@@ -4,7 +4,9 @@
       <div class="col-12 text-center">
         <h3 class="pt-3" style="font-size: 26px">Our Categories</h3>
         <router-link :to="{ name: 'AddCategory' }">
-          <button class="btn" style="float: right">Add Category</button>
+          <button class="btn btn-primary" style="float: right">
+            Add Category
+          </button>
         </router-link>
       </div>
     </div>
@@ -12,7 +14,7 @@
       <div
         v-for="category of categories"
         :key="category.id"
-        class="col-xl-4 col-md-6 col-12 pt-3 d-flex"
+        class="col-xl-4 col-md-4 col-12 pt-3 d-flex"
       >
         <CategoryBox :category="category"> </CategoryBox>
       </div>
