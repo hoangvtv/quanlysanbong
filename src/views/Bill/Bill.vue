@@ -315,8 +315,6 @@ export default {
     editItem(item) {
       this.editedIndex = item.id;
       this.editedItem = Object.assign({}, item);
-      console.log("item: " + this.editedItem);
-      console.log("id: " + this.editedIndex);
       this.dialog = true;
     },
 
@@ -327,7 +325,6 @@ export default {
     },
 
     deleteItemConfirm() {
-      // this.desserts.splice(this.editedIndex, 1);
       console.log(this.editedItem.id);
       this.closeDelete();
     },
@@ -350,14 +347,12 @@ export default {
 
     async save() {
       if (this.editedIndex > -1) {
-        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
         const bill = {
           matchDetails: this.editedItem.matchDetails,
           serviceMoney: this.editedItem.serviceMoney,
           merchandiseMoney: this.editedItem.merchandiseMoney,
           status: this.status,
         };
-        console.log("bill: ", bill);
         await axios
           .put(
             `http://localhost:8081/bill/update/${this.editedIndex}/${this.token}`,
@@ -408,7 +403,6 @@ export default {
   },
   mounted() {
     this.getBill();
-    // this.getListBill();
     this.getListMatchDate();
     this.token = localStorage.getItem("token");
   },

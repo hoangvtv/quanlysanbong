@@ -158,7 +158,7 @@ export default {
       {
         text: "Ngày đá",
         align: "start",
-        sortable: false,
+        // sortable: false,
         value: "startDate",
       },
       { text: "Tên người lập", value: "user.firstName" },

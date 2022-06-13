@@ -148,58 +148,9 @@ export default {
       token: null,
     };
   },
-  watch: {
-    // startTime() {
-    //   console.log(this.startTime);
-    // },
-  },
+  watch: {},
 
   methods: {
-    // addYardLocation() {
-    //   const newYardLocation = {
-    //     name: this.name,
-    //     apartmentNumber: this.apartmentNumber,
-    //     streetName: this.streetName,
-    //     wardName: this.wardName,
-    //     districtName: this.districtName,
-    //     note: this.note,
-    //   };
-    //   axios
-    //     .post(this.baseURL + "yardLocation/create", newYardLocation)
-    //     .then(() => {
-    //       this.$emit("fetchData");
-    //       this.$router.push({ name: "Address" });
-    //       sweetalert({
-    //         text: "YardLocation added successfully",
-    //         icon: "success",
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log("err", err);
-    //       sweetalert({
-    //         text: "YardLocation added failed",
-    //         icon: "error",
-    //       });
-    //     });
-    // },
-    formatHourse(date) {
-      {
-        try {
-          let hour = date.getHours();
-          let minutes = date.getMinutes();
-
-          if (hour < 10) {
-            hour = "0" + hour;
-          }
-          if (minutes < 10) {
-            minutes = "0" + minutes;
-          }
-          return hour + ":" + minutes;
-        } catch (error) {
-          console.log("error", error);
-        }
-      }
-    },
     findSoccerField() {
       const newMatch = {
         yardLocationId: this.yardLocationId,
@@ -213,22 +164,20 @@ export default {
         yourName: this.yourName,
         yourPhone: this.yourPhone,
       };
-      console.log(newMatch);
 
       axios
         .post(this.baseURL + "match/findMatch", newMatch)
         .then(() => {
           this.$emit("fetchData");
-          // this.$router.push({ name: "Match" });
           sweetalert({
             text: "Đặt sân thành công",
             icon: "success",
           });
         })
         .catch((err) => {
-          console.log("err", err);
+          console.log("err", err.response);
           sweetalert({
-            text: "Đặt sân thất bại",
+            text: "Không có sân trống",
             icon: "error",
           });
         });
