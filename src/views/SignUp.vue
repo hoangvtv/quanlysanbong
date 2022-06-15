@@ -48,12 +48,7 @@
             </div>
             <div class="form-group">
               <label> Phone</label>
-              <input
-                type="password"
-                v-model="phone"
-                class="form-control"
-                required
-              />
+              <input type="tel" v-model="phone" class="form-control" required />
             </div>
 
             <!-- password -->
@@ -126,7 +121,7 @@ export default {
           password: this.password,
           roleId: this.roleId,
         };
-        console.log("user", user);
+
         await axios
           .post(`${this.baseURL}user/signup`, user)
           .then(() => {
@@ -158,6 +153,13 @@ export default {
         });
       }
     },
+    // validateEmail(value) {
+    //   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+    //     this.msg["email"] = "";
+    //   } else {
+    //     this.msg["email"] = "Please enter a valid email address";
+    //   }
+    // },
   },
 };
 </script>

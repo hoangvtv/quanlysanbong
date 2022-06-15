@@ -150,7 +150,6 @@ export default {
           .then((res) => {
             this.users = res.data;
             this.roleId = this.users.role.id;
-            console.log(this.users);
           })
           .catch((err) => console.log("err", err));
       }

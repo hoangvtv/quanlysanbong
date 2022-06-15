@@ -62,12 +62,12 @@ export default {
         .catch((err) => console.log("err", err));
 
       // api call to get the merchandises
-      await axios
-        .get(this.baseURL + "merchandise/list")
-        .then((res) => {
-          this.merchandises = res.data;
-        })
-        .catch((err) => console.log("err", err));
+      // await axios
+      //   .get(this.baseURL + "merchandise/list")
+      //   .then((res) => {
+      //     this.merchandises = res.data;
+      //   })
+      //   .catch((err) => console.log("err", err));
 
       // api call to get yard Location
       await axios
@@ -78,12 +78,12 @@ export default {
         .catch((err) => console.log("err", err));
 
       // api call to get Soccer Service
-      await axios
-        .get(this.baseURL + "service/list")
-        .then((res) => {
-          this.soccerServices = res.data;
-        })
-        .catch((err) => console.log("err", err));
+      //   await axios
+      //     .get(this.baseURL + "service/list")
+      //     .then((res) => {
+      //       this.soccerServices = res.data;
+      //     })
+      //     .catch((err) => console.log("err", err));
     },
 
     async getUser() {

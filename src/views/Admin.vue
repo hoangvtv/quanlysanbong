@@ -1,5 +1,9 @@
 <template>
   <div class="text-center mt-3">
+    <router-link :to="{ name: 'SoccerFlied' }" v-if="roleId == 1">
+      <button class="btn btn-primary btn-lg">Admin SoccerField</button>
+    </router-link>
+    <br />
     <router-link :to="{ name: 'Category' }" v-if="roleId == 1">
       <button class="btn btn-primary btn-lg">Admin Category</button>
     </router-link>
@@ -10,11 +14,6 @@
     </router-link>
     <br />
 
-    <router-link :to="{ name: 'SoccerFlied' }" v-if="roleId == 1">
-      <button class="btn btn-primary btn-lg">Admin Soccer</button>
-    </router-link>
-
-    <br />
     <router-link :to="{ name: 'ListMatch' }">
       <button class="btn btn-primary btn-lg">Admin Match</button>
     </router-link>

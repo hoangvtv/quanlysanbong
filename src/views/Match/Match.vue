@@ -27,9 +27,9 @@
               <td>{{ new Date(item.startTime).toLocaleTimeString() }}</td>
               <td>{{ new Date(item.endTime).toLocaleTimeString() }}</td>
               <td>
-                <v-icon small class="mr-2" @click="editItem(item)">
+                <!-- <v-icon small class="mr-2" @click="editItem(item)">
                   mdi-pencil
-                </v-icon>
+                </v-icon> -->
                 <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
               </td>
             </tr>
@@ -254,13 +254,11 @@ export default {
     },
     async save() {
       if (this.editedIndex > -1) {
+        console.log("update");
         await axios
-          .put(`http://localhost:8081/match/update/${this.editedItem.id}`, {
-            params: {
-              startTime: this.startTime,
-              endTime: this.endTime,
-            },
-          })
+          .put(
+            `http://localhost:8081/match/update/${this.editedItem.id}/${this.startTime}/${this.endTime}`
+          )
           .then(() => {
             Swal({
               text: "Match updated successfully!",
@@ -276,15 +274,6 @@ export default {
             });
             console.log(err);
           });
-      } else {
-        console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-
-        // const bill = {
-        //   matchDetails: this.editedItem.matchDetails,
-        //   serviceMoney: this.editedItem.serviceMoney,
-        //   merchandiseMoney: this.editedItem.merchandiseMoney,
-        //   status: this.status,
-        // };
       }
       this.close();
     },

@@ -269,7 +269,6 @@ export default {
         .get("http://localhost:8081/bill/list")
         .then((res) => {
           this.listBill = res.data;
-          console.log("list Bill: " + this.listBill);
         })
         .catch((err) => {
           console.log(err);
@@ -285,7 +284,6 @@ export default {
         })
         .then((res) => {
           this.listBill = res.data;
-          console.log(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -305,7 +303,6 @@ export default {
         .get("http://localhost:8081/match/listDate")
         .then((res) => {
           this.listMatch = res.data;
-          console.log("list match" + this.listMatch);
         })
         .catch((err) => {
           console.log(err);
@@ -324,8 +321,24 @@ export default {
       this.dialogDelete = true;
     },
 
-    deleteItemConfirm() {
+    async deleteItemConfirm() {
       console.log(this.editedItem.id);
+      await axios
+        .delete(`http://localhost:8081/bill/delete/${this.editedItem.id}`)
+        .then(() => {
+          Swal({
+            text: "Bill has been deleted!",
+            icon: "success",
+          });
+          this.getBill();
+        })
+        .catch((err) => {
+          console.log(err);
+          Swal({
+            text: "Bill has not been deleted!",
+            icon: "error",
+          });
+        });
       this.closeDelete();
     },
 

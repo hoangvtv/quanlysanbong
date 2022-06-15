@@ -28,10 +28,12 @@
               <td>{{ new Date(item.startTime).toLocaleTimeString() }}</td>
               <td>{{ new Date(item.endTime).toLocaleTimeString() }}</td>
               <td>
-                <v-icon small class="mr-2" @click="editItem(item)">
+                <!-- <v-icon small class="mr-2" @click="editItem(item)">
                   mdi-pencil
+                </v-icon> -->
+                <v-icon class="text-center" small @click="deleteItem(item)">
+                  mdi-delete
                 </v-icon>
-                <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
               </td>
             </tr>
           </tbody>
@@ -234,7 +236,6 @@ export default {
     },
 
     deleteItem(item) {
-      console.log("item: " + item);
       this.editedIndex = item.id;
       this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
